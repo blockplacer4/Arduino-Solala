@@ -1,4 +1,4 @@
-int sensorPins[4] = {A0, A1, A2, A3};
+const int sensorPins[4] = {A0, A1, A2, A3};
 int sensorValues[4] = {0, 0, 0, 0};
 
 struct Motor {
@@ -10,8 +10,8 @@ Motor horizontal = {9, 8};
 Motor vertical   = {7, 6};
 
 // multiplikator falls ein motor schneller muss
-int multiH = 1;
-int multiV = 1;
+const int multiH = 1;
+const int multiV = 1;
 
 const unsigned long searchTime = 3UL * 60UL * 1000UL;
 
@@ -19,7 +19,7 @@ const unsigned long searchTime = 3UL * 60UL * 1000UL;
 const unsigned long sleepTime  = 5UL * 60UL * 1000UL;
 
 // wie viele ms jeder step für einen Motor "nutzt"
-int stepTime = 100;
+const int stepTime = 100;
 
 void setup() {
   Serial.begin(9600);
