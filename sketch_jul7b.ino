@@ -76,7 +76,6 @@ void sucheSonne() {
   unsigned long start = millis();
   int tolerance = 3;
   while (millis() - start < searchTime) {
-    readSensors();
     printSensors();
     int hDiff, vDiff;
     berechneDiff(hDiff, vDiff);
@@ -109,7 +108,6 @@ void sucheSonne() {
 }
 
 bool isNight() {
-  readSensors();
   int nightValue = 10;
   int sumSensors = 0;
   bool night = false;
@@ -118,12 +116,7 @@ bool isNight() {
     sumSensors += sensorValues[i];
   }
 
-  if (sumSensors < nightValue){
-    night = true;
-    Serial.println("Es ist Nacht");
-  }
-
-  return night;
+  return sumSensors / 4 < nightValue;
 }
 
 void turnStartPosition() {
@@ -138,11 +131,13 @@ void turnStartPosition() {
 }
 
 void loop() {
+  readSensors();
   if (isNight){
     turnStartPosition;
-  }
-  sucheSonne();
-  setMotor(horizontal, 0);
-  setMotor(vertical, 0);
-  delay(sleepTime);
+  } else {
+    sucheSonne();
+    setMotor(horizontal, 0);
+    setMotor(vertical, 0);
+    delay(sleepTime);
+    }
 }
