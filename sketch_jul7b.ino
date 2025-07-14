@@ -116,7 +116,7 @@ bool isNight() {
     sumSensors += sensorValues[i];
   }
 
-  return sumSensors / 4 < nightValue;
+  return (sumSensors / 4) < nightValue;
 }
 
 void turnStartPosition() {
@@ -139,5 +139,5 @@ void loop() {
     setMotor(horizontal, 0);
     setMotor(vertical, 0);
     delay(sleepTime);
-    }
+  }
 }
