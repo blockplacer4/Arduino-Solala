@@ -13,6 +13,7 @@ Motor vertical   = {7, 6};
 const int multiH = 1;
 const int multiV = 1;
 
+// 3 * 60 * 1000 = 180000 -> 3 Minuten
 const unsigned long searchTime = 3UL * 60UL * 1000UL;
 
 // 5 * 60 * 1000 = 300000 -> 5 Minuten
@@ -107,7 +108,39 @@ void sucheSonne() {
   }
 }
 
+bool isNight() {
+  readSensors();
+  int nightValue = 10;
+  int sumSensors = 0;
+  bool night = false;
+
+  for (int i=0; i<4; i++){
+    sumSensors += sensorValues[i];
+  }
+
+  if (sumSensors < nightValue){
+    night = true;
+    Serial.println("Es ist Nacht");
+  }
+
+  return night;
+}
+
+void turnStartPosition() {
+  // 1 * 60 * 1000 = 60000 -> 1 Minute
+  int returnTime = 1UL * 60UL * 1000UL;
+  // 60 * 60 * 1000 = 3600000 -> 60 Minute
+  int nightTime = 3600000;
+  moveMotor(vertical, -1, returnTime, multiV);
+  moveMotor(horizontal, -1, returnTime, multiH);
+  Serial.println("Auf Startposition zurückgesetzt");
+  delay(nightTime);
+}
+
 void loop() {
+  if (isNight){
+    turnStartPosition;
+  }
   sucheSonne();
   setMotor(horizontal, 0);
   setMotor(vertical, 0);
